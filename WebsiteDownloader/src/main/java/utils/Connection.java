@@ -13,7 +13,8 @@ public class Connection {
 
 	public static void setupConnection() {
 	    webClient = new WebClient(BrowserVersion.CHROME);
-        webClient.getOptions().setJavaScriptEnabled(false);  			
+        webClient.getOptions().setJavaScriptEnabled(false); 
+        webClient.getOptions().setCssEnabled(false);
 	}
 
 	public HtmlPage getPage(String url) {
@@ -32,7 +33,7 @@ public class Connection {
 		return null; 
 	}
 	
-		public static void closeCOnnection() {
+		public static void closeConnection() {
 		webClient.close();
 	}
 }

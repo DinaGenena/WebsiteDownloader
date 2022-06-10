@@ -7,12 +7,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FileSystemManager {
 	
 
-	public void saveTextFile(String text, String pageName, String dir) {
-		File textFile = new File(dir.concat(pageName).concat(".txt"));
+	public void saveTextFile(String text, String dir) {
+		dir = dir.replaceAll(" ", "_");
+		String pageName = dir.substring(dir.lastIndexOf("/") );
+		File textFile = new File(dir.concat(pageName).concat(".html"));
 	    Writer writer;
 		try {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(textFile)));
@@ -27,7 +31,25 @@ public class FileSystemManager {
 		}
 	}
 	
-	public File saveImage(String imageName, String dir) {
-			return new File(dir.concat((imageName.substring(imageName.lastIndexOf("/") + 1)))) ;
+	public File saveHtml(String pageName , String dir) {
+		return new File(dir.concat(pageName)) ;
 	}
+	
+	public File saveImage(String imageName, String dir) {
+		imageName = imageName.replaceAll(" ", "_");
+		return new File(dir.concat((imageName.substring(imageName.lastIndexOf("/"))))) ;
+	}
+	
+	public void createDir(String path) {
+		//new File(path).getParentFile().mkdirs();
+		new File(path).mkdirs();
+	}
+	
+	public boolean dirExists(String dir) {
+		if (Files.isDirectory(Paths.get(dir))) {
+			return true;
+		}
+		return false;
+	}
+	
 }
