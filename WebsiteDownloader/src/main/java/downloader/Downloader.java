@@ -15,12 +15,10 @@ public class Downloader {
 
 	FileSystemManager fileSystemManager = new FileSystemManager();
 	ArrayList<String> traversedLinks = new ArrayList<String>();
-	ArrayList<String> traversedLinks2 = new ArrayList<String>();
-	ArrayList<String> allLinks = new ArrayList<String>();
-	ArrayList<String> linksToVisit = new ArrayList<String>();
+	ArrayList<String> links = new ArrayList<String>();
 	String baseDir ;
 	String baseUrl ;
-	long assetCount;
+	int pointer = 0  ;
 	
 	public Downloader(String baseUrl, String baseDir) {
 		this.baseUrl = baseUrl;
@@ -30,16 +28,18 @@ public class Downloader {
 
 	
 	public void downloadPage(Connection connection) {
-	for (String link : allLinks) {
-	HtmlPage page = connection.getPage(link);
-	String relDir = link.substring((link.lastIndexOf(".com/") + 1));
-	createDirs(baseDir.concat(relDir));
-	downloadText(page, baseDir.concat(relDir));
-	downloadImages(page, baseDir.concat(relDir));
+	for (String link : links) {
+		HtmlPage page = connection.getPage(link);
+		String relDir = link.substring((link.lastIndexOf(".com/") + 1));
+		createDirs(baseDir.concat(relDir));
+		downloadText(page, baseDir.concat(relDir));
+		downloadImages(page, baseDir.concat(relDir));
+		pointer ++ ;  
 	}
 }
 	
 	public void discover(Connection connection , String url) {
+	System.out.print("Discovering " + links.size() + " files" +  "\r" );	
 	HtmlPage page = connection.getPage(url);
 	ArrayList<String> children = getLinks(page);
 	if (! children.isEmpty()) {
@@ -56,7 +56,7 @@ public class Downloader {
 				newUrl = url.concat("/").concat(link);
 				}
 			}
-			 allLinks.add(newUrl);
+			 links.add(newUrl);
 		     discover(connection,newUrl);
 			
 		}
@@ -99,27 +99,25 @@ public class Downloader {
   	 return linkList ;	
 	}
 	
-	
 	private void createDirs(String path) {
 		fileSystemManager.createDir(path);
 	}
 	
-	public void getProgress() {
-		System.out.println("ASSET COUNT; " + traversedLinks2.size());
-		long counter = 1 ; 
-		while (counter < traversedLinks2.size()) {
-		long percentage =( (counter % traversedLinks2.size()) ); 
-		System.out.print("Downloading " +  percentage + " %" + "\r");
+	public void getProgress() { 
+		int place = 0 ; 
+		int size = links.size();
+		while (place < size) {
+		int percentage = (int)((place * 100.0f) / size);
+		System.out.print("Downloading " +  percentage + "%"  + "\r");
 		 try {
-			Thread.sleep(100);
+			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		counter = fileSystemManager.localFileCount(baseDir);
-		System.out.println("number of files = " + counter);
-		//counter += 1 ; 
+		 place = pointer ; 
 		}
+		System.out.print("Download Complete");
 	}
 
 

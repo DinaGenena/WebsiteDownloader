@@ -16,7 +16,7 @@ public class Main {
 		Downloader downloader = new Downloader("https://tretton37.com", "C:\\Users\\Dina\\Desktop\\tretton37/");
 		downloader.discover(connection1, "https://tretton37.com");
 		connection1.closeConnection();;
-	   // new Thread(() -> downloader.getProgress()).start();	
+	    new Thread(() -> downloader.getProgress()).start();	
 	    new Thread(() -> downloader.downloadPage(connection2)).start();
 		connection2.closeConnection();
 		
