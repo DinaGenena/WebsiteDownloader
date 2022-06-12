@@ -1,5 +1,6 @@
 package downloader;
 import java.io.IOException;
+import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 
 import com.gargoylesoftware.htmlunit.html.DomElement;
@@ -18,19 +19,31 @@ public class Downloader {
 	ArrayList<String> links = new ArrayList<String>();
 	String baseDir ;
 	String baseUrl ;
+	String userDir ; 
 	int pointer = 0  ;
 	
-	public Downloader(String baseUrl, String baseDir) {
+	public Downloader(String baseUrl, String userDir,String baseDir) throws FileSystemException {
 		this.baseUrl = baseUrl;
 		this.baseDir = baseDir;
+		this.userDir = userDir; 
+		if ( !fileSystemManager.dirExists(userDir)) {
+			throw new FileSystemException(userDir , null , "Directory does not exists");
+		}
 		fileSystemManager.createDir(baseDir);
 	}
-
+	
+	public Downloader() {
+		
+	}
+	
+	public ArrayList<String> getLinks(){
+		return links;
+	}
 	
 	public void downloadPage(Connection connection) {
 	for (String link : links) {
 		HtmlPage page = connection.getPage(link);
-		String relDir = link.substring((link.lastIndexOf(".com/") + 1));
+		String relDir = link.substring((link.lastIndexOf(".com") + 4));
 		createDirs(baseDir.concat(relDir));
 		downloadText(page, baseDir.concat(relDir));
 		downloadImages(page, baseDir.concat(relDir));

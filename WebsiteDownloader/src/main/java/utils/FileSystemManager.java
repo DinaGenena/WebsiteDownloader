@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileSystemManager {
@@ -43,25 +42,17 @@ public class FileSystemManager {
 	}
 	
 	public void createDir(String dir) {
-		String dirName = dir.substring(dir.lastIndexOf(".com\\") + 1);
+		String dirName ; 
+		if (dir.contains(".com")){
+			//dirName = dir.substring(dir.lastIndexOf(".com") + 5);
+			dirName = "SS";
+		}
+		else {
+			dirName = dir ; 
+		}
 		new File(dirName).mkdirs();
 	}
-	
-	public int localFileCount(String dir) { 
-	    try {
-	    	Path path = Paths.get(dir) ; 
-			return (int)Files.walk(path)
-			            .parallel()
-			            .filter(p -> p.toFile().isDirectory())
-			            .count();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 1;
-	  }
-	
-	
+		
 	public boolean dirExists(String dir) {
 		if (Files.isDirectory(Paths.get(dir))) {
 			return true;
