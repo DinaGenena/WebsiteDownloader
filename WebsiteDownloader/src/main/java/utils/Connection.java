@@ -20,16 +20,9 @@ public class Connection {
 	public HtmlPage getPage(String url) {
 		try {
 			return webClient.getPage(url);
-		} catch (FailingHttpStatusCodeException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		return null; 
 	}
 	

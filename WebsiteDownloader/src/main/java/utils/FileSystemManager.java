@@ -2,9 +2,7 @@ package utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.file.Files;
@@ -23,11 +21,8 @@ public class FileSystemManager {
 			writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(textFile)));
 		    writer.write(text);
 		    writer.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
+
 			e.printStackTrace();
 		}
 	}
@@ -44,8 +39,7 @@ public class FileSystemManager {
 	public void createDir(String dir) {
 		String dirName ; 
 		if (dir.contains(".com")){
-			//dirName = dir.substring(dir.lastIndexOf(".com") + 5);
-			dirName = "SS";
+			dirName = dir.substring(dir.lastIndexOf(".com") + 5);
 		}
 		else {
 			dirName = dir ; 

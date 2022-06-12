@@ -32,10 +32,7 @@ public class Downloader {
 		fileSystemManager.createDir(baseDir);
 	}
 	
-	public Downloader() {
-		
-	}
-	
+
 	public ArrayList<String> getLinks(){
 		return links;
 	}
@@ -96,7 +93,6 @@ public class Downloader {
         }
 	}
 		
-
 	private ArrayList<String> getLinks(HtmlPage page) {
 		 ArrayList<String>linkList = new ArrayList<String>(); 
   	 for (HtmlAnchor link : page.getAnchors()) {
@@ -125,7 +121,6 @@ public class Downloader {
 		 try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 place = pointer ; 
