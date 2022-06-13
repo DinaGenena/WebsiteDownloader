@@ -8,15 +8,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.FileSystemException;
-
 import downloader.Downloader;
 import utils.Connection;
 import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-
 
 public class DownloaderTest {
     ClassLoader classLoader = getClass().getClassLoader();
@@ -27,8 +24,6 @@ public class DownloaderTest {
 	
 @Before
    public void setUp() {
-   	
-   	 connection.setupConnection();
 	 String htmlSample="<!DOCTYPE html>\r\n" + 
 			"<head>\r\n" + 
 			"<title>A Sample HTML Document (Test File)</title>\r\n" + 
@@ -55,7 +50,6 @@ public class DownloaderTest {
 			e.printStackTrace();
 		}	
    }
-
 
 @Test
    public void testDiscoverInvalidLinks() {

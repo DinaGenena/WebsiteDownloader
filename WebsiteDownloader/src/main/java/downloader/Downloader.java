@@ -32,7 +32,6 @@ public class Downloader {
 		fileSystemManager.createDir(baseDir);
 	}
 	
-
 	public ArrayList<String> getLinks(){
 		return links;
 	}
@@ -67,8 +66,7 @@ public class Downloader {
 				}
 			}
 			 links.add(newUrl);
-		     discover(connection,newUrl);
-			
+		     discover(connection,newUrl);			
 		}
 	}
 }
@@ -84,12 +82,15 @@ public class Downloader {
 			imageList.stream()
                      .filter(img -> img.getAttributes().getNamedItem("src") != null)
                      .filter(img -> ! img.getAttributes().getNamedItem("src").getNodeValue().contains("http"))
-                     .forEach(img -> {HtmlImage htmlImage = (HtmlImage) img;
-                    				try {
-                    					htmlImage.saveAs((fileSystemManager.saveImage((img.getAttributes().getNamedItem("src").getNodeValue()), dir)));
-                    				} catch (IOException e) {
-                    					e.printStackTrace();
-                    				} } );
+                     .forEach(img -> {
+                      new Thread(() ->
+                       {HtmlImage htmlImage = (HtmlImage) img;
+                    	 try {
+                    		htmlImage.saveAs((fileSystemManager.saveImage((img.getAttributes().getNamedItem("src").getNodeValue()), dir)));
+                    	 } catch (IOException e) {
+                    		e.printStackTrace();
+                    	 }}
+                         ).start();} );	
         }
 	}
 		
@@ -127,6 +128,5 @@ public class Downloader {
 		}
 		System.out.print("Download Complete");
 	}
-
 
 }
